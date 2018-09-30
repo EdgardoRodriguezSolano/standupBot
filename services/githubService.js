@@ -11,13 +11,14 @@ require('dotenv').config();
  */
 
 class GithubService{
-    constructor(){
+    constructor(ts, tc){
         this.octokit = octokit;
         this.octokit.authenticate({
             type: 'oauth',
             token: process.env.githubToken
-          })
-
+          });
+        this.tc = tc;
+        this.ts = ts;
     }
 
     /**
@@ -27,7 +28,6 @@ class GithubService{
         octokit.repos.getAll({
             'affiliation': 'owner'
         }).then(({ data, headers, status }) => {
-            // handle data
             console.log(data);
         })    
     };
@@ -37,17 +37,16 @@ class GithubService{
      * @param {string} repo
      * @param {TelegramService} ts
      */
-    getForRepo(repo, ts){
+    getForRepo(repo){
         octokit.issues.getForRepo({
             owner: process.env.githubOwner,
             repo: repo
           }).then(({ data, headers, status }) => {
             // handle data
             for (var key in data)
-                {console.log("\n\n"+ data[key].url + "\n" + data[key].body+ "\n\n");
-                ts.sendMessage(process.env.telegramChatId, "\n\n"+ data[key].title + "\n" + data[key].body+ "\n\n");}
-                return data;
-            })   
+                this.tc.getCards(data[key].title, data[key].body);
+            }) 
+            
     }
 }
 

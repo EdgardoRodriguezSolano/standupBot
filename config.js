@@ -1,5 +1,7 @@
 module.exports = {
     text: {
+        added_card: "Agregando tarjetas a la lista 'Backlog'",
+        create_list: "Agregando a tu tablero la lista ",
         create_lists: "Las listas 'Backlog', 'To Do' y 'Done' han sido creadas",
         get: 'Getting all the issues right now',
         help: 'Help',
