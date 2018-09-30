@@ -1,5 +1,6 @@
 module.exports = {
     text: {
+        create_lists: "Las listas 'Backlog', 'To Do' y 'Done' han sido creadas",
         get: 'Getting all the issues right now',
         help: 'Help',
         notfound: 'No encontré esta instrucción en mi lista de comandos! \n\nPor favor consulta la lista de comandos en /help',

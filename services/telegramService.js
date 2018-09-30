@@ -10,12 +10,19 @@ const api = new Telegram({
       }
   });
 
-
+/**
+ * Telegram bot API class
+ */
 class TelegramService {
     constructor(){
         this.api = api;
         this._textRegexpCallbacks = [];
     }
+    /**
+     * Sends a message to the Bot chat
+     * @param {string} chatId
+     * @param {Object} text
+     */
     sendMessage(chatId, text) {
         const params = {
             chat_id: chatId,

@@ -1,7 +1,7 @@
-const request = require('request');
 const config = require('./config');
 const TelegramService = require('./services/telegramService');
 const GithubService = require('./services/githubService');
+const TrelloService = require('./services/trelloService');
 require('dotenv').config();
 
 // //SENDING MESSAGE TO TELEGRAM
@@ -61,22 +61,9 @@ require('dotenv').config();
 //   console.log(body);
 // });
 
-
-// Create a new list on the board
-const options = {
-  method: 'POST',
-  url: 'https://api.trello.com/1/lists',
-  qs: {
-    name: 'Prueba Hackaton',
-    idBoard: '5a4db42c0eb9bff18f989181',
-    key: 'b18b73e3387a7c2370b537c37b0dfa14',
-    token: '6a13ebc8cf406d09d71a3dcb9a81095c22cb0f2a09fd961a902775587a69196e',
-  },
-};
-
 const ts = new TelegramService();
 const gh = new GithubService();
-
+const tc = new TrelloService();
 
 ts.api.on('message', (message) => {
   // Received text message
@@ -89,59 +76,26 @@ ts.api.on('message', (message) => {
       ts.sendMessage(process.env.telegramChatId, config.text.get);
       gh.getForRepo(process.env.githubRepo, ts);
     } else
-    if (message.text === '/setup') {
-      ts.sendMessage(process.env.telegramChatId, config.text.setup);
+    if (message.text === '/create') {
+      ts.sendMessage(process.env.telegramChatId, config.text.create);
     } else
     if (message.text === '/help') {
       ts.sendMessage(process.env.telegramChatId, config.text.help);
+    } else
+    if (message.text === '/setup') {
+      ts.sendMessage(process.env.telegramChatId, config.text.setup);
+      tc.createList(process.env.trelloBoardId, 'Backlog');
+      tc.createList(process.env.trelloBoardId, 'To do');
+      tc.createList(process.env.trelloBoardId, 'Done');
+      ts.sendMessage(process.env.telegramChatId, config.text.create_lists);
     } else {
       ts.sendMessage(process.env.telegramChatId, config.text.notfound);
     }
-
     //  (message.text === '/get') ?ts.sendMessage(config.telegramChatId, config.text.help)
     //  : (message.text === '/setup') ?ts.sendMessage(config.telegramChatId, config.text.help)
     //  : (message.text === '/help') ?ts.sendMessage(config.telegramChatId, config.text.help)
     //  : ts.sendMessage(config.telegramChatId, config.text.notfound)
-
-    // // TRELLO PART
-    // request(options, (error, response, body) => {
-    //   if (error) throw new Error(error);
-    //   console.log(body);
-    // });
   } else {
     ts.sendMessage(process.env.telegramChatId, config.text.welcomeText);
   }
 });
-
-
-// api.on('inline.query', function(message)
-// {
-//     // Received inline query
-//     console.log(message);
-// });
-
-// api.on('inline.result', function(message)
-// {
-//     // Received chosen inline result
-//     console.log(message);
-// });
-
-// api.on('inline.callback.query', function(message)
-// {
-//     // New incoming callback query
-//     console.log(message);
-// });
-
-// api.on('edited.message', function(message)
-// {
-//     // Message that was edited
-//     console.log(message);
-// });
-
-// api.on('update', function(message)
-// {
-//     // Generic update object
-//     // Subscribe on it in case if you want to handle all possible
-//     // event types in one callback
-//     console.log(message);
-// });

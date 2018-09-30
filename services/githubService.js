@@ -6,6 +6,10 @@ require('dotenv').config();
 
 // https://octokit.github.io/rest.js/
 
+/**
+ * Github API class
+ */
+
 class GithubService{
     constructor(){
         this.octokit = octokit;
@@ -15,6 +19,10 @@ class GithubService{
           })
 
     }
+
+    /**
+     * Returns all the repos for the token authenticated user
+     */
     getAll(){
         octokit.repos.getAll({
             'affiliation': 'owner'
@@ -24,6 +32,11 @@ class GithubService{
         })    
     };
 
+    /**
+     * Returns a JSON object with all the issues for a specific gitHub repo and forwards it to the bot chat
+     * @param {string} repo
+     * @param {TelegramService} ts
+     */
     getForRepo(repo, ts){
         octokit.issues.getForRepo({
             owner: process.env.githubOwner,
