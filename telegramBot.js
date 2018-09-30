@@ -35,10 +35,13 @@ class TelegramBot {
             //     //tc.createCard();
             //     this.gh.getForRepo(process.env.githubRepo);
             //   } else
-            //   if (message.text === '/help') {
-            //     this.ts.sendMessage(process.env.telegramChatId, config.text.help);
-            //     this.tc.getLists();
-            //   } else
+              if (message.text === '/setup') {
+                this.ts.sendMessage(process.env.telegramChatId, config.text.help);
+                this.tc.getLists();
+                this.ts.sendMessage(process.env.telegramChatId, config.text.added_card);
+                //tc.createCard();
+                this.gh.getForRepo(process.env.githubRepo);
+              } else
             //   if (message.text === '/setup') {
             //     this.ts.sendMessage(process.env.telegramChatId, config.text.setup);
             //     this.tc.createList(process.env.trelloBoardId, 'Done');
@@ -49,8 +52,9 @@ class TelegramBot {
             //     this.ts.sendMessage(process.env.telegramChatId, config.text.notfound);
             //   }
                 (message.text === '/get') ?this.get()
-                : (message.text === '/setup') ?this.setup()
-                : (message.text === '/help') ?this.help()
+                //: (message.text === '/setup') ?this.setup()
+                //: (message.text === '/help') ?this.help()
+                : (message.text.indexOf('/set trellokey') > -1) ? console.log( "Im in" + cadena[2])    
                 : this.notFound();
             } else {
               if (!this.setting)  
@@ -58,7 +62,12 @@ class TelegramBot {
                  else{
                     (message.text === 'Trello') ?this.setTrello()
                     : (message.text === 'Github') ?this.setGithub()
-                    : (message.text === 'trelloKey') ? console.log('set key Trello')
+                    : (message.text === 'trelloKey') ? this.ts.sendMessage(process.env.telegramChatId, config.text.trelloKey)
+                    : (message.text === 'trelloToken') ? this.ts.sendMessage(process.env.telegramChatId, config.text.trelloToken)
+                    : (message.text === 'trelloBoardId') ? this.ts.sendMessage(process.env.telegramChatId, config.text.trelloBoardId)
+                    : (message.text === 'githubToken') ? this.ts.sendMessage(process.env.telegramChatId, config.text.githubToken)
+                    : (message.text === 'githubOwner') ? this.ts.sendMessage(process.env.telegramChatId, config.text.githubOwner)
+                    : (message.text === 'githubRepo') ? this.ts.sendMessage(process.env.telegramChatId, config.text.githubRepo)                           
                     : true;
                  }
             }
@@ -67,7 +76,6 @@ class TelegramBot {
     }
 
     get(){
-
     }
 
     help(){
@@ -80,11 +88,15 @@ class TelegramBot {
 
     setTrello(){
         console.log("value=>>" + this.ts.configMessage(process.env.telegramChatId, config.text.trello, [['trelloKey'],['trelloToken'],['trelloBoardId']]));
-
     }
 
+    setGithub(){
+        console.log("value=>>" + this.ts.configMessage(process.env.telegramChatId, config.text.trello, [['githubToken'],['githubOwner'],['githubRepo']]));
+    }
+
+
     notFound(){
-        return this.ts.sendMessage(config.telegramChatId, config.text.notfound)
+        this.ts.sendMessage(config.telegramChatId, config.text.notfound)
     }
 }
 
