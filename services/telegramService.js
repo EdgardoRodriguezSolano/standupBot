@@ -4,7 +4,7 @@ const util = require('util');
 require('dotenv').config();
 
 const api = new Telegram({
-    token: process.telegramToken,
+    token: process.env.telegramToken,
     updates: {
         enabled: true,
       }
