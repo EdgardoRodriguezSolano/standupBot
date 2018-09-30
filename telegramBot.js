@@ -54,7 +54,7 @@ class TelegramBot {
                 (message.text === '/get') ?this.get()
                 //: (message.text === '/setup') ?this.setup()
                 //: (message.text === '/help') ?this.help()
-                : (message.text.indexOf('/set trellokey') > -1) ? console.log( "Im in" + cadena[2])    
+                //: (message.text.indexOf('/set trellokey') > -1) ? console.log( "Im in" + cadena[2])    
                 : this.notFound();
             } else {
               if (!this.setting)  
