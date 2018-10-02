@@ -12,7 +12,3 @@ const bot = new TelegramBot(ts, tc, gh);
 
 // Let the bot starts listening
 bot.init();
-
-
-
-

@@ -46,6 +46,7 @@ class TrelloService {
             if (error) throw new Error(error);
                 let cards_list = JSON.parse(body);
                 (this.getBoardByName(title, cards_list).length >= 1) ?console.log('Existe el issue en Trello - ' + title):this.createCard(title, desc);
+                (this.getBoardByName(title, cards_list).length >= 1) ?this.ts.sendMessage(process.env.telegramChatId, config.text.existing_issue + title):true;
             });
         }
 
